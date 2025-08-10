@@ -243,7 +243,7 @@ end
 function M.enable_auto_open()
 	local group = api.nvim_create_augroup("PrettyTsErrorsAuto", { clear = true })
 	api.nvim_create_autocmd("CursorHold", {
-		pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+		pattern = { "*.ts", "*.tsx", "*.mts", "*.cts", "*.js", "*.jsx", "*.mjs", "*.cjs" },
 		group = group,
 		callback = function()
 			local line = api.nvim_win_get_cursor(0)[1] - 1
