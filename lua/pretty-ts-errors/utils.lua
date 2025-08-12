@@ -27,7 +27,7 @@ function M.update_buffer(buf, contents)
 end
 
 function M.is_ts_source(source)
-	return vim.tbl_contains({ "tsserver", "ts", "typescript" }, source)
+	return vim.tbl_contains({ "tsserver", "ts", "typescript", "deno-ts" }, source)
 end
 
 function M.is_windows()
