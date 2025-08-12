@@ -75,6 +75,11 @@ vim.keymap.set('n', '<leader>tE', function() require('pretty-ts-errors').open_al
 vim.keymap.set('n', '<leader>tt', function() require('pretty-ts-errors').toggle_auto_open() end, { desc = "Toggle TS error auto-display" })
 ```
 
+### Tips
+
+- You can **launch the "Open Floating Window" command twice** (e.g., `:PrettyTsError`) to focus on the floating window after it appears.
+- While inside the floating window, you can **press `q`** to close it quickly.
+
 ## How It Works
 
 The plugin intercepts TypeScript diagnostics from the LSP server and passes them to the CLI tool, which formats them into readable markdown. This markdown is then displayed in Neovim using floating windows or buffer splits.
