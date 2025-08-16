@@ -116,6 +116,7 @@ function M.show_formatted_error(opts)
 	end
 
 	local contents = ""
+	local resolved_count = 0
 
 	for _, diagnostic in ipairs(ts_diagnostics) do
 		-- Format the diagnostic asynchronously
@@ -137,6 +138,13 @@ function M.show_formatted_error(opts)
 
 				-- Update the buffer after each error is processed
 				utils.update_buffer(floating_buf, contents)
+				resolved_count = resolved_count + 1
+
+				if resolved_count < #ts_diagnostics and window == nil then
+					-- We're in lazy mode and not all diagnostics have been rendered
+					-- yet, so avoid creating the window until we know we have all of them
+					return
+				end
 
 				-- Recalculate window size for formatted content
 				local lines = vim.split(contents, "\n")
