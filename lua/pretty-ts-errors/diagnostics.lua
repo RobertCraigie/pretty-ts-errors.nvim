@@ -65,6 +65,7 @@ end
 function M.show_formatted_error(opts)
 	opts = opts or {}
 	opts.focus_existing_window = opts.focus_existing_window or true
+	opts.lazy_window = opts.lazy_window or config.get().lazy_window
 
 	local win_opts = {
 		relative = "cursor",
