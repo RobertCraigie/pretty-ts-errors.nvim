@@ -8,9 +8,18 @@ local api = vim.api
 local floating_win_visible = false
 local floating_win_id = nil
 
-local function init_window(main_buf, floating_buf, opts)
-	-- Open floating window immediately with loading message
-	local win = api.nvim_open_win(floating_buf, false, opts)
+local function init_window(main_buf, floating_buf)
+	local win_opts = {
+		relative = "cursor",
+		width = 50,
+		height = 5,
+		row = 1,
+		col = 0,
+		style = "minimal",
+		border = config.get().float_opts.border,
+	}
+
+	local win = api.nvim_open_win(floating_buf, false, win_opts)
 	api.nvim_set_option_value("wrap", config.get().float_opts.wrap, { win = win })
 	floating_win_visible = true
 	floating_win_id = win
@@ -67,16 +76,6 @@ function M.show_formatted_error(opts)
 	opts.focus_existing_window = opts.focus_existing_window or true
 	opts.lazy_window = opts.lazy_window or config.get().lazy_window
 
-	local win_opts = {
-		relative = "cursor",
-		width = 50,
-		height = 5,
-		row = 1,
-		col = 0,
-		style = "minimal",
-		border = config.get().float_opts.border,
-	}
-
 	-- If a floating window is already open, focus it instead of creating a new one
 	if floating_win_visible then
 		if opts.focus_existing_window and floating_win_id ~= nil then
@@ -113,7 +112,7 @@ function M.show_formatted_error(opts)
 		})
 
 		-- Configure initial floating window
-		window = init_window(main_buf, floating_buf, win_opts)
+		window = init_window(main_buf, floating_buf)
 	end
 
 	local contents = ""
@@ -159,7 +158,7 @@ function M.show_formatted_error(opts)
 				if window == nil then
 					-- If the window is nil, that means we're in lazy window creation mode,
 					-- so initialise it here.
-					window = init_window(main_buf, floating_buf, win_opts)
+					window = init_window(main_buf, floating_buf)
 				end
 
 				-- Resize the window with new content
